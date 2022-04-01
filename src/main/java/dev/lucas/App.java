@@ -1,11 +1,13 @@
 package dev.lucas;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.time.Duration;
 import java.util.logging.Logger;
 
 import static java.lang.String.format;
@@ -35,6 +37,18 @@ public class App {
         final var response = client.send(request, HttpResponse.BodyHandlers.ofString());
         log.info(format("RESPONSE_STATUS_CODE=%s", response.statusCode()));
 
-        System.out.println(response.body());
+        final var body = response.body();
+
+        final var items = parseJsonMovies(body);
+
+        items.getItems().stream().map(Movie::getTitle).forEach(System.out::println);
+        items.getItems().stream().map(Movie::getImage).forEach(System.out::println);
+        items.getItems().stream().map(Movie::getImDbRating).forEach(System.out::println);
+        items.getItems().stream().map(Movie::getYear).forEach(System.out::println);
+    }
+
+    private static Items parseJsonMovies(String body) {
+        return new Gson().fromJson(body, new TypeToken<Items>() {
+        }.getType());
     }
 }

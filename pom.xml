@@ -8,6 +8,16 @@
   <artifactId>7daysofcode</artifactId>
   <version>1.0</version>
 
+  <dependencies>
+    <!--  Gson: Java to Json conversion -->
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.9.0</version>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
+
   <build>
     <plugins>
       <plugin>
